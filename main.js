@@ -6,7 +6,7 @@ import path, { join } from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { platform } from 'process'
 import * as ws from 'ws';
-import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync } from 'fs';
+import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, mkdirSync, rmSync } from 'fs';
 import yargs from 'yargs';
 import { spawn } from 'child_process';
 import lodash from 'lodash';
@@ -294,6 +294,18 @@ global.reload = async (_ev, filename) => {
 Object.freeze(global.reload)
 watch(pluginFolder, global.reload)
 await global.reloadHandler()
+
+// @marvellous make /tmp/tmp folder
+const directoryPath = '/tmp/tmp'; // Replace with the desired directory path
+// Check if the directory exists
+if (!existsSync(directoryPath)) {
+  // If it doesn't exist, create the directory
+  mkdirSync(directoryPath);
+  console.log(`Directory '${directoryPath}' created successfully.`);
+} else {
+  console.log(`Directory '${directoryPath}' already exists.`);
+}
+
 
 // Quick Test
 async function _quickTest() {
